@@ -29,17 +29,16 @@ module "eks" {
 
   //access entry for any specific user or role (jenkins controller instance)
   access_entries = {
-    # One access entry with a policy associated
-    example = {
-      principal_arn = "arn:aws:iam::876997124628:user/terraform"
+  root-access = {
+    principal_arn = "arn:aws:iam::597047871119:root"
 
-      policy_associations = {
-        example = {
-          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
-          access_scope = {
-            type = "cluster"
-          }
+    policy_associations = {
+      cluster-admin-access = {
+        policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+        access_scope = {
+          type = "cluster"
         }
+      }
       }
     }
   }
@@ -77,7 +76,7 @@ module "eks" {
 
   eks_managed_node_group_defaults = {
 
-    instance_types = ["t3.large"]
+    instance_types = ["t3.micro"]
 
     attach_cluster_primary_security_group = true
 
@@ -92,7 +91,7 @@ module "eks" {
       max_size     = 3
       desired_size = 1
 
-      instance_types = ["t3.large"]
+      instance_types = ["t3.micro"]
       capacity_type  = "SPOT"
 
       disk_size                  = 35

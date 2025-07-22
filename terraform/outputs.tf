@@ -20,8 +20,7 @@ output "eks_cluster_endpoint" {
 
 
 output "public_ip" {
-  description = "Public IP of the EC2 instance"
-  value       = aws_instance.testinstance.public_ip
+  value = aws_instance.bastion_host.public_ip
 }
 
 output "eks_node_group_public_ips" {

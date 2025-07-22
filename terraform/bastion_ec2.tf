@@ -32,7 +32,7 @@ resource "aws_security_group" "allow_user_bastion" {
 }
 
 resource "aws_instance" "bastion_host" {
-  ami                    = data.aws_ami.os_image.id
+  ami = var.ami_id
   instance_type          = var.instance_type
   key_name               = aws_key_pair.deployer.key_name
   vpc_security_group_ids = [aws_security_group.allow_user_bastion.id]
@@ -45,5 +45,9 @@ resource "aws_instance" "bastion_host" {
     volume_size = 20
     volume_type = "gp3"
   }
+}
 
+resource "aws_key_pair" "deployer" {
+  key_name   = "deployer-key"
+  public_key = file("${path.module}/deployer-key.pub")
 }
